@@ -1,12 +1,14 @@
-# [[Automação de Testes de API](https://github.com/diogorangel/project-api-test.git)]
+# Automação de Testes de API
 # Author : Diogo Rangel 
 - (diogorangel - https://github.com/diogorangel)
+
+[[Automação de Testes de API - link](https://github.com/diogorangel/project-api-test.git)]
 
 1. [[Este repositório contém o projeto de Automação de Testes de API.](https://github.com/diogorangel/project-api-test.git)] 
 
 2. O objetivo deste projeto é garantir a qualidade de uma API RESTful de gerenciamento de usuários (operações de Criação, Leitura, Atualização e Exclusão).
 
-A ferramenta escolhida para o desenvolvimento foi o **Playwright** executado em **Node.js**. A escolha se deu pela sua velocidade, robustez na execução de requisições HTTP e excelente geração nativa de relatórios interativos. [cite_start]A API utilizada como base para os testes foi a [ServeRest](https://serverest.dev/#/)[cite: 19].
+A ferramenta escolhida para o desenvolvimento foi o **Playwright** executado em **Node.js**. A escolha se deu pela sua velocidade, robustez na execução de requisições HTTP e excelente geração nativa de relatórios interativos. [cite_start]A API utilizada como base para os testes foi a [ServeRest](https://serverest.dev/#/).
 
 ---
 
@@ -44,17 +46,34 @@ O Playwright precisa desta etapa caso deseje abrir os relatórios em uma interfa
 "
 npx playwright install
 "
-# 4. ▶️ Execução dos Testes   
+# 4. ▶️ Execução dos Testes  
 O Playwright facilita a execução dos cenários de teste através de sua CLI. Utilize os comandos abaixo no seu terminal:Para rodar a suíte completa no terminal (modo headless):
 
+Rodar todos os testes na pasta teste:
 . npx playwright test
 
-# 5.  Para rodar os testes 
-Utilizando a interface visual do Playwright (UI Mode):
+- Para um conjunto de teste especifico:
+npx playwright test tests/users.spec.ts
 
-npx playwright test --ui
+- Para executar um teste no modo Interface Visual interativa (UI):
+npx playwright test tests/users.spec.ts --ui
 
-Para visualizar o relatório HTML detalhado após a execução:Bashnpx playwright show-report
+- Para rodar no modo visivel:
+npx playwright test tests/users.spec.ts --headed
+
+- Para abrir o relatorio em seguido dos testes:
+npx playwright test tests/users.spec.ts && npx playwright show-report
+npx playwright test tests/users.spec.ts ; npx playwright show-report
+
+- Para abrir o navegador:
+npx playwright test tests/users.spec.ts --headed
+
+- Para rodar um único cenário (test) dentro desse arquivo:
+npx playwright test tests/users.spec.ts -g "Scenario 4"
+
+# 5. Relatorio
+Para exibir o relatorio dos ultimos testes
+npx playwright show-report
 
 # 6. 🎯 Casos de Teste Cobertos   
 A suíte de testes foi arquitetada para garantir 100% de cobertura da API , validando tanto os fluxos de sucesso quanto os cenários de exceção e validação de regras de negócio.  
