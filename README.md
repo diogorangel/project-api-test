@@ -21,7 +21,7 @@ Para executar este projeto localmente, você precisará instalar as seguintes fe
 
 ---
 
-## [cite_start]🚀 Configuração do Ambiente e Instalação 
+## 🚀 Configuração do Ambiente e Instalação 
 
 Siga os passos abaixo para preparar o ambiente local:
 
@@ -30,7 +30,7 @@ Siga os passos abaixo para preparar o ambiente local:
    git clone <INCLUA_AQUI_A_URL_DO_SEU_REPOSITORIO>
    cd carrefour-api-test
    
-## [cite_start]🚀 Configuração do Ambiente e Instalação 
+## 🚀 Configuração do Ambiente e Instalação 
 
 Siga os passos abaixo para preparar o ambiente local:
 
