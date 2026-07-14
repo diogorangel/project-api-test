@@ -1,10 +1,10 @@
-# [https://github.com/diogorangel/project-api-test.git]Automação de Testes de API
+# [[Automação de Testes de API](https://github.com/diogorangel/project-api-test.git)]
 # Author : Diogo Rangel 
 - (diogorangel - https://github.com/diogorangel)
 
-1. [https://github.com/diogorangel/project-api-test.git]Este repositório contém o projeto de Automação de Testes de API. 
-2. [https://github.com/diogorangel/project-api-test.git]
-3. O objetivo deste projeto é garantir a qualidade de uma API RESTful de gerenciamento de usuários (operações de Criação, Leitura, Atualização e Exclusão).
+1. [[Este repositório contém o projeto de Automação de Testes de API.](https://github.com/diogorangel/project-api-test.git)] 
+
+2. O objetivo deste projeto é garantir a qualidade de uma API RESTful de gerenciamento de usuários (operações de Criação, Leitura, Atualização e Exclusão).
 
 A ferramenta escolhida para o desenvolvimento foi o **Playwright** executado em **Node.js**. A escolha se deu pela sua velocidade, robustez na execução de requisições HTTP e excelente geração nativa de relatórios interativos. [cite_start]A API utilizada como base para os testes foi a [ServeRest](https://serverest.dev/#/)[cite: 19].
 
