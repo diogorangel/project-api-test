@@ -2,9 +2,7 @@
 # Author : Diogo Rangel 
 - (diogorangel - https://github.com/diogorangel)
 
-[[Automação de Testes de API - link](https://github.com/diogorangel/project-api-test.git)]
-
-1. [[Este repositório contém o projeto de Automação de Testes de API.](https://github.com/diogorangel/project-api-test.git)] 
+1. Este repositório contém o projeto de Automação de Testes de API.
 
 2. O objetivo deste projeto é garantir a qualidade de uma API RESTful de gerenciamento de usuários (operações de Criação, Leitura, Atualização e Exclusão).
 
