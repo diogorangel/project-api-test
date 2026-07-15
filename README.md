@@ -25,8 +25,8 @@ Siga os passos abaixo para preparar o ambiente local:
 
 1. **Clone o repositório:**
    ```bash
-   git clone <INCLUA_AQUI_A_URL_DO_SEU_REPOSITORIO>
-   cd carrefour-api-test
+   git clone <https://github.com/diogorangel/project-api-test.git>
+   cd project-api-test
    
 ## 🚀 Configuração do Ambiente e Instalação 
 
@@ -34,7 +34,7 @@ Siga os passos abaixo para preparar o ambiente local:
 
 1. **Clone o repositório:**
    ```bash
-   git clone <https://github.com/diogorangel/project-api-test.git>
+   git clone <>
    cd carrefour-api-test
 
 # 2. Instale as dependências do projeto:Bashnpm install
