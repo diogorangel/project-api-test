@@ -6,22 +6,85 @@
 
 # Test info
 
-- Name: users.spec.ts >> API - User Management Workflow (Carrefour) >> Scenario 8: Should return status 429 when exceeding the limit of 100 requests per minute
-- Location: tests\users.spec.ts:140:9
+- Name: users.spec.ts >> API - User Management Workflow (Carrefour) >> Scenario 4: Should return details of a specific user by ID
+- Location: tests\users.spec.ts:79:9
 
 # Error details
 
 ```
-Error: The API should return 429 Too Many Requests when exceeding 100 req/min
+Error: expect(received).toBe(expected) // Object.is equality
 
-expect(received).toBeTruthy()
-
-Received: false
+Expected: 200
+Received: 400
 ```
 
 # Test source
 
 ```ts
+  1   | import { test, expect } from '@playwright/test';
+  2   | import path from 'path';
+  3   | import process from 'process';
+  4   | import fs from 'fs';
+  5   | 
+  6   | const baseURL = 'https://serverest.dev';
+  7   | 
+  8   | // Variáveis globais para armazenar os dados de estado entre os testes
+  9   | let authToken = '';
+  10  | let userId = '';
+  11  | let uniqueEmail = `qa_${Date.now()}@carrefour.com`;
+  12  | 
+  13  | // Usei .serial para garantir que os testes rodem em ordem, pois dependem um do outro
+  14  | test.describe.serial('API - User Management Workflow (Carrefour)', () => {
+  15  | 
+  16  |     // ==========================================
+  17  |     // --- POSITIVE TESTS (Happy Path) ---
+  18  |     // ==========================================
+  19  | 
+  20  |     test('Scenario 1: Should create a user successfully with all valid fields', async ({ request }, testInfo) => {
+  21  |         const testName = testInfo.title.replace(/[\s:]+/g, '_');
+  22  |         const evidenceDir = path.join(process.cwd(), 'evidence', testName);
+  23  |         if (!fs.existsSync(evidenceDir)) fs.mkdirSync(evidenceDir, { recursive: true });
+  24  | 
+  25  |         const response = await request.post(`${baseURL}/usuarios`, {
+  26  |             data: {
+  27  |                 nome: "Fulano Silva",
+  28  |                 email: uniqueEmail,
+  29  |                 password: "senha_segura",
+  30  |                 administrador: "true"
+  31  |             }
+  32  |         });
+  33  | 
+  34  |         expect(response.status()).toBe(201);
+  35  |         const body = await response.json();
+  36  |         
+  37  |         fs.writeFileSync(path.join(evidenceDir, 'response.json'), JSON.stringify(body, null, 2));
+  38  | 
+  39  |         expect(body.message).toBe("Cadastro realizado com sucesso");
+  40  |         expect(body).toHaveProperty('_id');
+  41  |         
+  42  |         // Salvando o ID para os próximos cenários
+  43  |         userId = body._id;
+  44  |     });
+  45  | 
+  46  |     test('Scenario 2: Should authenticate user and generate JWT token', async ({ request }, testInfo) => {
+  47  |         const testName = testInfo.title.replace(/[\s:]+/g, '_');
+  48  |         const evidenceDir = path.join(process.cwd(), 'evidence', testName);
+  49  |         if (!fs.existsSync(evidenceDir)) fs.mkdirSync(evidenceDir, { recursive: true });
+  50  | 
+  51  |         const response = await request.post(`${baseURL}/login`, {
+  52  |             data: {
+  53  |                 email: uniqueEmail,
+  54  |                 password: "senha_segura"
+  55  |             }
+  56  |         });
+  57  | 
+  58  |         expect(response.status()).toBe(200);
+  59  |         const body = await response.json();
+  60  |         
+  61  |         fs.writeFileSync(path.join(evidenceDir, 'response.json'), JSON.stringify(body, null, 2));
+  62  | 
+  63  |         expect(body.message).toBe("Login realizado com sucesso");
+  64  |         expect(body).toHaveProperty('authorization');
   65  |         
   66  |         // Salvando o Token JWT para os próximos cenários
   67  |         authToken = body.authorization;
@@ -39,7 +102,8 @@ Received: false
   79  |     test('Scenario 4: Should return details of a specific user by ID', async ({ request }, testInfo) => {
   80  |         const testName = testInfo.title.replace(/[\s:]+/g, '_');
   81  |         const response = await request.get(`${baseURL}/usuarios/${userId}`);
-  82  |         expect(response.status()).toBe(200);
+> 82  |         expect(response.status()).toBe(200);
+      |                                   ^ Error: expect(received).toBe(expected) // Object.is equality
   83  |         
   84  |         const body = await response.json();
   85  |         expect(body.email).toBe(uniqueEmail);
@@ -122,8 +186,7 @@ Received: false
   162 |         expect(
   163 |             containsRateLimitError, 
   164 |             'The API should return 429 Too Many Requests when exceeding 100 req/min'
-> 165 |         ).toBeTruthy();
-      |           ^ Error: The API should return 429 Too Many Requests when exceeding 100 req/min
+  165 |         ).toBeTruthy();
   166 |     });
   167 | 
   168 |     test('Scenario 9: Validate the message different of password é obrigatório nao é aceito', async ({ request }, testInfo) => {
@@ -141,43 +204,4 @@ Received: false
   180 |         const body = await response.json();
   181 |         // Validação do que esta certo
   182 |         expect(body.password).toBe("password é obrigatório");
-  183 |         // Validação do que esta errado
-  184 |         expect(body.password).not.toBe("password não pode ficar em branco");
-  185 |     });
-  186 | 
-  187 |         test('Scenario 10: Should return details of a specific user by ID verification 2', async ({ request }, testInfo) => {
-  188 |         // 1. Setup: Create a user explicitly for this specific test
-  189 |         const testEmail = `qa_details_${Date.now()}@carrefour.com`;
-  190 |         const setupResponse = await request.post(`${baseURL}/usuarios`, {
-  191 |             data: {
-  192 |                 nome: "Fulano Detalhes",
-  193 |                 email: testEmail,
-  194 |                 password: "senha_segura",
-  195 |                 administrador: "true"
-  196 |             }
-  197 |         });
-  198 |         
-  199 |         // Ensure setup was successful before proceeding
-  200 |         expect(setupResponse.status()).toBe(201); 
-  201 |         const setupBody = await setupResponse.json();
-  202 |         const isolatedUserId = setupBody._id;
-  203 | 
-  204 |         // 2. Action: Fetch the user details using the newly created ID
-  205 |         const response = await request.get(`${baseURL}/usuarios/${isolatedUserId}`);
-  206 |         
-  207 |         // 3. Assert: Validate the response
-  208 |         expect(response.status()).toBe(200);
-  209 |         const body = await response.json();
-  210 |         expect(body.email).toBe(testEmail);
-  211 |     });
-  212 |     test('Scenario 11: Should return a list of all users', async ({ request }, testInfo) => {
-  213 |         const testName = testInfo.title.replace(/[\s:]+/g, '_');
-  214 |         const response = await request.get(`${baseURL}/usuarios`);
-  215 |         expect(response.status()).not.toBe(400);
-  216 |         
-  217 |         const body = await response.json();
-  218 |         expect(Array.isArray(body.usuarios)).toBeTruthy();
-  219 |     });
-  220 | 
-  221 | });
 ```

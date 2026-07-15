@@ -184,4 +184,38 @@ test.describe.serial('API - User Management Workflow (Carrefour)', () => {
         expect(body.password).not.toBe("password não pode ficar em branco");
     });
 
+        test('Scenario 10: Should return details of a specific user by ID verification 2', async ({ request }, testInfo) => {
+        // 1. Setup: Create a user explicitly for this specific test
+        const testEmail = `qa_details_${Date.now()}@carrefour.com`;
+        const setupResponse = await request.post(`${baseURL}/usuarios`, {
+            data: {
+                nome: "Fulano Detalhes",
+                email: testEmail,
+                password: "senha_segura",
+                administrador: "true"
+            }
+        });
+        
+        // Ensure setup was successful before proceeding
+        expect(setupResponse.status()).toBe(201); 
+        const setupBody = await setupResponse.json();
+        const isolatedUserId = setupBody._id;
+
+        // 2. Action: Fetch the user details using the newly created ID
+        const response = await request.get(`${baseURL}/usuarios/${isolatedUserId}`);
+        
+        // 3. Assert: Validate the response
+        expect(response.status()).toBe(200);
+        const body = await response.json();
+        expect(body.email).toBe(testEmail);
+    });
+    test('Scenario 11: Should return a list of all users', async ({ request }, testInfo) => {
+        const testName = testInfo.title.replace(/[\s:]+/g, '_');
+        const response = await request.get(`${baseURL}/usuarios`);
+        expect(response.status()).not.toBe(400);
+        
+        const body = await response.json();
+        expect(Array.isArray(body.usuarios)).toBeTruthy();
+    });
+
 });
